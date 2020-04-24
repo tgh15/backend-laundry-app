@@ -40,8 +40,8 @@ class PaketController extends Controller
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'paket' => 'require',
-            'harga' => 'requre'
+            'paket' => 'required',
+            'harga' => 'required'
         ]);
 
         if($validator->fails()){
