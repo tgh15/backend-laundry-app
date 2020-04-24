@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\rf;
 use Illuminate\Http\Request;
+
+use App\Paket;
+use Validator;
 
 class PaketController extends Controller
 {
@@ -15,7 +17,8 @@ class PaketController extends Controller
      */
     public function index()
     {
-        //
+        $paket = Paket::all();
+        return response()->json(['data' => $paket], 200);
     }
 
     /**
@@ -36,16 +39,27 @@ class PaketController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validator = Validator::make($request->all(),[
+            'paket' => 'require',
+            'harga' => 'requre'
+        ]);
+
+        if($validator->fails()){
+            return response()->json(['error' => $validator->errors()], 401);
+        }
+
+        $input = $request->all();
+        $paket = Paket::create($input);
+        return response()->json(['message' => 'success', 'data' => $paket]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\rf  $rf
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(rf $rf)
+    public function show($id)
     {
         //
     }
@@ -53,10 +67,10 @@ class PaketController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\rf  $rf
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(rf $rf)
+    public function edit($id)
     {
         //
     }
@@ -65,22 +79,28 @@ class PaketController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\rf  $rf
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, rf $rf)
+    public function update(Request $request, $id)
     {
-        //
+        $input = $request->all();
+        $find = Paket::find($id);
+        $paket = $find->update($input);
+
+        return response()->json([ 'message' => 'edited','data' => $input], 200);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\rf  $rf
+     * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy(rf $rf)
+    public function destroy($id)
     {
-        //
+        $paket = Paket::find($id);
+        $paket->delete();
+        return response()->json(['message'=>'deleted'], 200);
     }
 }
