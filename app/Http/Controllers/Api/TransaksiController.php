@@ -59,6 +59,7 @@ class TransaksiController extends Controller
             $transaksilist->harga = $request->transaksilist[$i]['harga'];
             $transaksi->transaksilist()->save($transaksilist);
         }
+        return response()->json($transaksi->with('transaksilist'));
     }
 
     /**
