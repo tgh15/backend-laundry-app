@@ -15,7 +15,7 @@ class CreateTransaksiListsTable extends Migration
     {
         Schema::create('transaksi_lists', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaksi_id');
+            $table->foreignId('transaksi_id')->constrained()->onDelete('cascade');
             $table->string('paket');
             $table->integer('kuantitas');
             $table->boolean('kiloan');
