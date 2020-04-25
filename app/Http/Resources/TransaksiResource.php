@@ -22,7 +22,7 @@ class TransaksiResource extends JsonResource
             'nama_pelanggan' => $this->nama_pelanggan,
             'no_hp' => $this->no_hp,
             'alamat' => $this->alamat,
-            'total_bayar' => $this->total_bayar,
+            'total_bayar' => $this->total_harga,
             'status_pengerjaan' => $this->status_pengerjaan,
             'status_pembayaran' => $this->status_pembayaran,
             'tanggal_transaksi' => date_format($this->created_at, 'Y-m-d'),
