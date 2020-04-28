@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
+use App\Http\Resources\PaketResource;
+
 use App\Paket;
 use Validator;
 
@@ -18,7 +20,7 @@ class PaketController extends Controller
     public function index()
     {
         $paket = Paket::all();
-        return response()->json(['data' => $paket], 200);
+        return PaketResource::collection($paket);
     }
 
     /**
@@ -50,7 +52,7 @@ class PaketController extends Controller
 
         $input = $request->all();
         $paket = Paket::create($input);
-        return response()->json(['message' => 'success', 'data' => $paket]);
+        return response()->json(['message' => 'success',PaketResource::collection($paket)]);
     }
 
     /**
