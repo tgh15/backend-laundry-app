@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 use App\Http\Resources\TransaksiResource;
 use\App\Transaksi;
@@ -41,25 +42,32 @@ class TransaksiController extends Controller
      */
     public function store(Request $request)
     {
-        $transaksi = new Transaksi();
-        $transaksi->kode_transaksi = $request->kode_transaksi;
-        $transaksi->nama_pelanggan = $request->nama_pelanggan;
-        $transaksi->no_hp = $request->no_hp;
-        $transaksi->alamat = $request->alamat;
-        $transaksi->total_harga = $request->total_bayar;
-        $transaksi->status_pengerjaan = $request->status_pengerjaan;
-        $transaksi->status_pembayaran = $request->status_pembayaran;
-        $transaksi->save();
+        try{
+            DB::beginTransaction();
+            $transaksi = new Transaksi();
+            $transaksi->kode_transaksi = $request->kode_transaksi;
+            $transaksi->nama_pelanggan = $request->nama_pelanggan;
+            $transaksi->no_hp = $request->no_hp;
+            $transaksi->alamat = $request->alamat;
+            $transaksi->total_harga = $request->total_bayar;
+            $transaksi->status_pengerjaan = $request->status_pengerjaan;
+            $transaksi->status_pembayaran = $request->status_pembayaran;
+            $transaksi->save();
 
-        for ($i=0; $i < count($request->transaksilist); $i++) { 
-            $transaksilist = new TransaksiList;
-            $transaksilist->paket = $request->transaksilist[$i]['paket'];
-            $transaksilist->kuantitas = $request->transaksilist[$i]['kuantitas'];
-            $transaksilist->kiloan = $request->transaksilist[$i]['kiloan'];
-            $transaksilist->harga = $request->transaksilist[$i]['harga'];
-            $transaksi->transaksilist()->save($transaksilist);
+            for ($i=0; $i < count($request->transaksilist); $i++) { 
+                $transaksilist = new TransaksiList;
+                $transaksilist->paket = $request->transaksilist[$i]['paket'];
+                $transaksilist->kuantitas = $request->transaksilist[$i]['kuantitas'];
+                $transaksilist->kiloan = $request->transaksilist[$i]['kiloan'];
+                $transaksilist->harga = $request->transaksilist[$i]['harga'];
+                $transaksi->transaksilist()->save($transaksilist);
+            }
+            DB::commit();
+            return new TransaksiResource($transaksi);
+        }catch(\Exception $e){
+            return response()->json(["error" => $e->getMessage() ]);
+            DB::rollback();
         }
-        return response()->json($transaksi->with('transaksilist'), 200);
     }
 
     /**
@@ -71,7 +79,7 @@ class TransaksiController extends Controller
     public function show($id)
     {
         $transaksi = Transaksi::with('transaksilist')->find($id);
-        return TransaksiResource::collection($transaksi);
+        return new TransaksiResource($transaksi);
         // return $transaksi;
     }
 

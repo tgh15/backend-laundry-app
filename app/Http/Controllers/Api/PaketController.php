@@ -52,7 +52,7 @@ class PaketController extends Controller
 
         $input = $request->all();
         $paket = Paket::create($input);
-        return response()->json(['message' => 'success','paket'=>$paket]);
+        return new PaketResource($paket);
     }
 
     /**
