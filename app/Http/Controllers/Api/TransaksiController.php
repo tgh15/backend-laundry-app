@@ -76,11 +76,12 @@ class TransaksiController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($kode_transaksi)
     {
-        $transaksi = Transaksi::with('transaksilist')->find($id);
+        // return $kode_transaksi;
+        $transaksi = Transaksi::where('kode_transaksi','=', $kode_transaksi)->with('transaksilist')->first();
         return new TransaksiResource($transaksi);
-        // return $transaksi;
+        // return $transaksi[0];
     }
 
     /**
@@ -114,6 +115,7 @@ class TransaksiController extends Controller
      */
     public function destroy($id)
     {
-        //
+        Transaksi::findOrFail($id)->delete();
+        return response()->json(['message'=> 'berhasil dihapus']);
     }
 }

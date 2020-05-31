@@ -28,4 +28,7 @@ Route::prefix('v1')->group(function(){
         Route::apiResource('paket', 'Api\PaketController');
         Route::apiResource('transaksi', 'Api\TransaksiController');
     });
+    
+    Route::apiResource('paket', 'Api\PaketController')->only(['index']);
+    Route::apiResource('transaksi', 'Api\TransaksiController')->only(['show']);
 });
