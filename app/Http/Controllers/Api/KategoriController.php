@@ -5,25 +5,21 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-use App\Http\Resources\PaketResource;
-
-use App\Paket;
+use App\Kategori;
 use Validator;
 
-class PaketController extends Controller
+class KategoriController extends Controller
 {
     public function index()
     {
-        $paket = Paket::all();
-        return PaketResource::collection($paket);
+        $kategori = Kategori::all();
+        return response()->json(['data'=>$kategori]);
     }
 
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(),[
-            'paket' => 'required',
-            'harga' => 'required',
-            'kategori_id' => 'required'
+            'kategori' => 'required',
         ]);
 
         if($validator->fails()){
@@ -31,24 +27,22 @@ class PaketController extends Controller
         }
 
         $input = $request->all();
-        $paket = Paket::create($input);
-        return new PaketResource($paket);
+        $kategori = Kategori::create($input);
+        return response()->json(['data'=>$kategori]);
     }
 
     public function update(Request $request, $id)
     {
         $input = $request->all();
-        $find = Paket::find($id);
-        $paket = $find->update($input);
-        if($paket){
-            return response()->json([ 'message' => 'edited','data' => $input], 200);
-        }
-    }
+        $find = Kategori::find($id);
+        $kategori = $find->update($input);
 
+        return response()->json([ 'message' => 'edited','data' => $input], 200);
+    }
     public function destroy($id)
     {
-        $paket = Paket::find($id);
-        $paket->delete();
+        $kategori = Kategori::findOrFail($id);
+        $kategori->delete();
         return response()->json(['message'=>'deleted'], 200);
     }
 }

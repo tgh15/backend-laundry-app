@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTransaksiListsTable extends Migration
+class CreateKategorisTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,10 @@ class CreateTransaksiListsTable extends Migration
      */
     public function up()
     {
-        Schema::create('transaksi_lists', function (Blueprint $table) {
+        Schema::create('kategoris', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('transaksi_id')->constrained()->onDelete('cascade');
-            $table->string('paket');
-            $table->integer('kuantitas');
-            $table->integer('harga');
+            $table->string('kategori');
+            $table->string('deskripsi')->nullable();
             $table->timestamps();
         });
     }
@@ -30,6 +28,6 @@ class CreateTransaksiListsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('transaksi_lists');
+        Schema::dropIfExists('kategoris');
     }
 }

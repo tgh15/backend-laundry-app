@@ -19,8 +19,15 @@ class TransaksiController extends Controller
      */
     public function index()
     {
-        $transaksi = Transaksi::all();
-        return TransaksiResource::collection($transaksi);
+            $transaksi = Transaksi::all();
+            if ($transaksi) {
+                # code...
+                return TransaksiResource::collection($transaksi);
+            }else{
+                return response()->json(["error" => 'error' ]);
+            }
+            //throw $th;
+
         // return $transaksi;
     }
 
@@ -80,7 +87,13 @@ class TransaksiController extends Controller
     {
         // return $kode_transaksi;
         $transaksi = Transaksi::where('kode_transaksi','=', $kode_transaksi)->with('transaksilist')->first();
-        return new TransaksiResource($transaksi);
+        if ($transaksi) {
+            # code...
+            return new TransaksiResource($transaksi);
+        }else {
+            # code...
+            return response()->json(["error" => 'error' ]);
+        }
         // return $transaksi[0];
     }
 
@@ -115,7 +128,13 @@ class TransaksiController extends Controller
      */
     public function destroy($id)
     {
-        Transaksi::findOrFail($id)->delete();
-        return response()->json(['message'=> 'berhasil dihapus']);
+        try{
+            Transaksi::findOrFail($id)->delete();
+            return response()->json(['message'=> 'berhasil dihapus']);
+        }catch(\Exception $e){
+            return response()->json(["error" => $e->getMessage() ]);
+        }
+        // Transaksi::findOrFail($id)->delete();
+        // return response()->json(['message'=> 'berhasil dihapus']);
     }
 }

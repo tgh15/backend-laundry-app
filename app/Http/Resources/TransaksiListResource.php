@@ -19,7 +19,6 @@ class TransaksiListResource extends JsonResource
             'id' => $this->id,
             'paket' => $this->paket,
             'kuantitas' => $this->kuantitas,
-            'kiloan' => $this->kiloan,
             'harga' => $this->harga
         ];
     }
