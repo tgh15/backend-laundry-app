@@ -91,7 +91,7 @@ class TransaksiController extends Controller
             return new TransaksiResource($transaksi);
         }else {
             # code...
-            return response()->json(["error" => 'error' ]);
+            return response()->json(["data" => ["message" => "data tidak ditemukan"] ]);
         }
         // return $transaksi[0];
     }
