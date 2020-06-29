@@ -15,7 +15,6 @@ class CreatePaketsTable extends Migration
     {
         Schema::create('pakets', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->foreignId('kategori_id')->constrained()->onDelete('cascade');
             $table->string('paket');
             $table->integer('harga');
             $table->timestamps();

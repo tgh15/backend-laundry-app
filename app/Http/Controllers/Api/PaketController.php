@@ -23,7 +23,6 @@ class PaketController extends Controller
         $validator = Validator::make($request->all(),[
             'paket' => 'required',
             'harga' => 'required',
-            'kategori_id' => 'required'
         ]);
 
         if($validator->fails()){

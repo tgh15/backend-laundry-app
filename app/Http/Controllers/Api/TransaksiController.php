@@ -65,7 +65,6 @@ class TransaksiController extends Controller
                 $transaksilist = new TransaksiList;
                 $transaksilist->paket = $request->transaksilist[$i]['paket'];
                 $transaksilist->kuantitas = $request->transaksilist[$i]['kuantitas'];
-                $transaksilist->kiloan = $request->transaksilist[$i]['kiloan'];
                 $transaksilist->harga = $request->transaksilist[$i]['harga'];
                 $transaksi->transaksilist()->save($transaksilist);
             }

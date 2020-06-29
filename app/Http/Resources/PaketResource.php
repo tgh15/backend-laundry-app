@@ -3,7 +3,6 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
-use App\Kategori;
 
 class PaketResource extends JsonResource
 {
@@ -20,7 +19,6 @@ class PaketResource extends JsonResource
             'id' => $this->id,
             'paket' => $this->paket,
             'harga' => $this->harga,
-            'kategori' => Kategori::find($this->kategori_id)->kategori
         ];
     }
 }

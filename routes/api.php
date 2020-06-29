@@ -27,7 +27,6 @@ Route::prefix('v1')->group(function(){
         Route::get('getuser', 'Api\AuthController@getUser');
         Route::apiResource('paket', 'Api\PaketController')->except(['show']);
         Route::apiResource('transaksi', 'Api\TransaksiController');
-        Route::apiResource('kategori', 'Api\KategoriController')->except(['show']);
     });
     
     Route::apiResource('paket', 'Api\PaketController')->only(['index']);
