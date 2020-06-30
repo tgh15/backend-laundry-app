@@ -116,7 +116,13 @@ class TransaksiController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $transaksi = Transaksi::findOrFail($id);
+        $transaksi->status_pembayaran = $request->status_pembayaran;
+        $transaksi->status_pengerjaan = $request->status_pengerjaan;
+        
+        if($transaksi->save()){
+            return new TransaksiResource($transaksi);
+        }
     }
 
     /**
